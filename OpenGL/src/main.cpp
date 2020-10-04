@@ -44,7 +44,7 @@ int main(void)
 		glClearColor(0.2f, 0.5f, 0.8f, 1.0f);
 
 		//Code Here
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
