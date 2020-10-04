@@ -2,6 +2,9 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexBufferLayout.h"
 
 int main(void)
 {
@@ -32,6 +35,7 @@ int main(void)
 		return -1;
 	}
 
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -40,6 +44,7 @@ int main(void)
 		glClearColor(0.2f, 0.5f, 0.8f, 1.0f);
 
 		//Code Here
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

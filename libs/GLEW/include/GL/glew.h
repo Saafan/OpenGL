@@ -310,8 +310,8 @@ typedef struct __GLsync *GLsync;
 
 typedef char GLchar;
 
-#define GL_FALSE 0
 #define GL_ZERO 0
+#define GL_FALSE 0
 #define GL_LOGIC_OP 0x0BF1
 #define GL_NONE 0
 #define GL_TEXTURE_COMPONENTS 0x1003

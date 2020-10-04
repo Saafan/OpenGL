@@ -22,6 +22,13 @@ ShaderProgramSource Shader::ParseShader(const std::string filePath)
 {
     std::ifstream stream(filePath);
 
+    if (!stream)
+    {
+        std::cout << "Couldn't Open Shader's file." << std::endl;
+        ShaderProgramSource s;
+        return s;
+    }
+
     enum class Shadertype
     {
         NONE = -1, VERTEX = 0, FRAGMENT = 1
@@ -88,7 +95,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
     GLCall(glLinkProgram(program)); // Link the program so the shaders are used
     GLCall(glValidateProgram(program)); // Check if the program can be executed
 
-                                        // The shaders are linked to the progam, so the shaders can be deleted
+                                       // The shaders are linked to the program, so the shaders can be deleted
     GLCall(glDeleteShader(vs));
     GLCall(glDeleteShader(fs));
 
