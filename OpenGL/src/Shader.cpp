@@ -119,7 +119,7 @@ unsigned int Shader::CreateShader(const std::string& vertexShader, const std::st
 	GLCall(glLinkProgram(program)); // Link the program so the shaders are used
 	GLCall(glValidateProgram(program)); // Check if the program can be executed
 
-									   // The shaders are linked to the program, so the shaders can be deleted
+	// The shaders are linked to the program, so the shaders can be deleted
 	GLCall(glDeleteShader(vs));
 	GLCall(glDeleteShader(fs));
 
@@ -134,6 +134,11 @@ void Shader::Bind() const
 void Shader::Unbind() const
 {
 	GLCall(glUseProgram(0));
+}
+
+unsigned int Shader::GetProgramID()
+{
+	return m_RendererID;
 }
 
 void Shader::SetUniform1i(const std::string& name, int value)
@@ -168,7 +173,38 @@ void Shader::SetUniform4f(const std::string& name, glm::vec4& vector)
 
 void Shader::SetUniformMat4f(const std::string& name, glm::mat4& matrix)
 {
-	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
+	if (name == DEFAULT_UNIFORM_MODEL_NAME)
+		this->view = &matrix;
+	if (name == DEFAULT_UNIFORM_PROJ_NAME)
+		this->proj = &matrix;
+
+	GLCall(glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix)));
+}
+
+void Shader::SetMVPMatrix(glm::mat4& model, glm::mat4& view, glm::mat4& proj)
+{
+	SetModelMatrix(model);
+	SetViewMatrix(view);
+	SetProjMatrix(proj);
+	this->view = &view;
+	this->proj = &proj;
+}
+
+void Shader::SetModelMatrix(glm::mat4& model)
+{
+	SetUniformMat4f(DEFAULT_UNIFORM_MODEL_NAME, model);
+}
+
+void Shader::SetViewMatrix(glm::mat4& view)
+{
+	SetUniformMat4f(DEFAULT_UNIFORM_VIEW_NAME, view);
+	this->view = &view;
+}
+
+void Shader::SetProjMatrix(glm::mat4& proj)
+{
+	SetUniformMat4f(DEFAULT_UNIFORM_PROJ_NAME, proj);
+	this->proj = &proj;
 }
 
 unsigned int Shader::GetUniformLocation(const std::string& name)

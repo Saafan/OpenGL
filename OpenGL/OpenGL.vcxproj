@@ -19,8 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
+    <ClCompile Include="src\Light.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Model3D.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -36,12 +42,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
+    <None Include="shaders\LightingShader.shader" />
+    <None Include="shaders\LightVisualization.shader" />
     <None Include="shaders\Shader.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DefaultNamingConventions.h" />
+    <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Light.h" />
+    <ClInclude Include="src\Mesh.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Model3D.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Teapoth.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendors\imgui\imconfig.h" />
     <ClInclude Include="src\vendors\imgui\imgui.h" />
@@ -126,13 +142,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/libs/GLFW/include;$(SolutionDir)/libs/GLEW/include;src/vendors;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/vendors;C:/OpenGL/libs/GLFW/include;C:/OpenGL/libs/GLEW/include;C:/OpenGL/includes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/libs/GLFW/lib-vc2019;$(SolutionDir)/libs/GLEW/Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;Gdi32.lib;User32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:/OpenGL/libs/GLEW/Win32;C:/OpenGL/libs/GLFW/lib-vc2019;C:/OpenGL/libs/ASSIMP;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;glfw3.lib;opengl32.lib;Gdi32.lib;User32.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

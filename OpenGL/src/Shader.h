@@ -1,10 +1,11 @@
 #pragma once
+#include "DefaultNamingConventions.h"
 
 #include <string>
 #include <unordered_map>
 
 #include "glm/glm.hpp"
-
+#include "glm/gtc/type_ptr.hpp"
 /**
 A struct that combines shader sources into a single type.
 */
@@ -24,8 +25,13 @@ public:
     Shader(const std::string& filePath);
     ~Shader();
 
+    glm::mat4* view = nullptr;
+    glm::mat4* proj = nullptr;
+
     void Bind() const;
     void Unbind() const;
+
+    unsigned int GetProgramID();
 
     // Set uniforms
     void SetUniform1i(const std::string& name, int value);
@@ -38,6 +44,14 @@ public:
     void SetUniform4f(const std::string& name, glm::vec4& vector);
 
     void SetUniformMat4f(const std::string& name, glm::mat4& matrix);
+
+    void SetMVPMatrix(glm::mat4& model, glm::mat4& view, glm::mat4& proj);
+    void SetModelMatrix(glm::mat4& model);
+    void SetViewMatrix(glm::mat4& view);
+    void SetProjMatrix(glm::mat4& proj);
+
+
+    unsigned int GetUniformLocation(const std::string& name);
 private:
 
     /**
@@ -72,5 +86,4 @@ private:
         @param name The name of the uniform
         @return The location
     */
-    unsigned int GetUniformLocation(const std::string& name);
 };

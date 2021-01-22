@@ -195,7 +195,8 @@ PublishScripts/
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
-
+OpenGL/images/
+OpenGL/models/
 # Microsoft Azure Emulator
 ecf/
 rcf/
