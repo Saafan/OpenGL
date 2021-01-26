@@ -146,9 +146,6 @@
     <ClInclude Include="src\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -3,10 +3,11 @@
 
 #include "stb_image\stb_image.h"
 
-Texture::Texture(const std::string& path, bool alpha)
+Texture::Texture(const std::string& path, aiTextureType type , bool alpha)
 	: m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
 	this->alpha = alpha;
+	this->type = type;
 	stbi_set_flip_vertically_on_load(1);
 	m_LocalBuffer = stbi_load(path.c_str(), &m_Width, &m_Height, &m_BPP, 4);
 
@@ -40,7 +41,15 @@ Texture::~Texture()
 	GLCall(glDeleteTextures(1, &m_RendererID));
 }
 
-void Texture::Bind(unsigned int slot) const
+void Texture::Bind(unsigned int slot)
+{
+	this->slot = slot;
+	GLCall(glActiveTexture(GL_TEXTURE0 + slot));
+	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
+}
+
+
+void Texture::Bind()
 {
 	GLCall(glActiveTexture(GL_TEXTURE0 + slot));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_RendererID));
@@ -49,4 +58,10 @@ void Texture::Bind(unsigned int slot) const
 void Texture::Unbind()
 {
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+}
+
+unsigned int Texture::SetSlot(unsigned int slot)
+{
+	this->slot = slot;
+	return GL_TEXTURE0 + slot;
 }

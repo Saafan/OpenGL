@@ -167,6 +167,8 @@ void Model::RenderWireCone(const glm::vec3 startPoint, const glm::vec3 endPoint,
 	shader->SetModelMatrix(GetModelMatrix());
 }
 
+
+
 void Model::RenderLine(const float startX, const float startY, const float startZ, const float endX, const float endY, const float endZ, float lineWidth)
 {
 	RenderLine(glm::vec3(startX, startY, startZ), glm::vec3(endX, endY, endZ), lineWidth);
@@ -423,12 +425,18 @@ void Model::Decompose()
 
 void Model::Render(std::string modelUniformName)
 {
-	va->Bind();
 	if (shader)
 	{
 		shader->Bind();
 		shader->SetUniformMat4f(modelUniformName, model);
+		if (type == ModelType::Model)
+		{
+			
+			return;
+		}
 	}
+
+	va->Bind();
 	if (material)
 		material->BindMaterial();
 

@@ -9,6 +9,9 @@
 #include "VertexBufferLayout.h"
 #include "Material.h"
 #include "IndexBuffer.h"
+#include "assimp/Importer.hpp"
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
 #include <iostream>
 
 enum class ModelType
@@ -35,6 +38,10 @@ class Model
 {
 public:
 	Model(ModelType type = ModelType::Model, Shader* shader = nullptr, Material* material = nullptr, float data[] = nullptr, unsigned int size = 0, unsigned int axisNum = 0, unsigned int normalsNum = 0, unsigned int extureCoordNum = 0, GLenum targetBufferObject = GL_TRIANGLES);
+	
+	//3D Model Importer
+	Model(std::string path, Shader* shader);
+	void LoadModel(std::string& path);
 
 	void UpdateIndiciesNum();
 	void SetVertexBuffer(const float data[] = nullptr, const unsigned int size = 0);
@@ -87,7 +94,7 @@ public:
 	void RenderLine(const float startX, const float startY, const float startZ, const float endX, const float endY, const float endZ, float lineWidth = 2.5f);
 	void RenderWireCone(const glm::vec3 startPoint, const glm::vec3 endPoint, float angle, float lineWidth = 2.5f);
 private:
-	ModelType type;
+	ModelType type = ModelType::Plane;
 
 	Shader* shader = nullptr;
 	Material* material = nullptr;
@@ -99,8 +106,10 @@ private:
 	VertexBuffer* vb = nullptr;
 	VertexBufferLayout* vbl = nullptr;
 	VertexArray* va = nullptr;
+	IndexBuffer* ib = nullptr;
 
-	GLenum targetBufferObject;
+	//GL_TRIANGLES/GL_QUADS?
+	GLenum targetBufferObject = GL_TRIANGLES;
 
 	unsigned int indicesNum = 0;
 	unsigned int axisNum = 0, normalsNum = 0, textureCoordNum = 0;
@@ -108,4 +117,7 @@ private:
 	unsigned int dataSize = 0.0f;
 
 
+	void ProcessNode(aiNode* node, const aiScene* scene);
+	void ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	void ProcessMaterial(aiMaterial* mat, const aiScene* scene);
 };

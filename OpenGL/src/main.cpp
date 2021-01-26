@@ -11,7 +11,6 @@
 #include "Material.h"
 
 #include "Model.h"
-#include "Model3D.h"
 
 int main(void)
 {
@@ -48,26 +47,31 @@ int main(void)
 
 	Camera camera(window, &shader, 2.5f);
 
-	Material mat(&shader, 128.0f, new Texture("images/container2.png"), new Texture("images/container2_specular.png"));
-	Material matGrid(&shader, 256.0f, new Texture("images/grid.png"));
+	Material mat(&shader, 64.0f);
+	Material matGrid(&shader, 256.0f);
 
-	Light dirLight(shader, camera, LightType::Spot, 0);
-	dirLight.SetSpotLightParam(glm::vec3(1, 1, 0), glm::vec3(1, -1, 0), glm::vec3(0.8f), glm::vec3(0.8f), glm::vec3(0.5f));
-	dirLight.SetLightCutoffAngles(20.0f, 40.0f);
-	dirLight.SetAmbient(1.0f, 0.0f, 1.0f);
+	mat.AddTexture("images/container2.png", aiTextureType_DIFFUSE, 1);
+	mat.AddTexture("images/container2_specular.png", aiTextureType_SPECULAR, 2);
 
-	Model pyramid(ModelType::Pyramid, &shader, &mat);
-	Model pyramid2(ModelType::Pyramid, &shader, &mat);
-	Model ground(ModelType::GroundPlane, &shader, &matGrid);
-	Model ground2(ModelType::GroundPlane, &shader, &matGrid);
+	Light dirLight(shader, camera, LightType::Point, 0);
+	dirLight.SetPointLightParam(glm::vec3(1.0f), glm::vec3(0.2f), glm::vec3(0.5f), glm::vec3(1.0f));
+	dirLight.SetAmbient(1.0f, 1.0f, 1.0f);
 
-	Model cubeLooker(ModelType::Cube, &shader, &mat);
+	//Model pyramid(ModelType::Pyramid, &shader, &mat);
+	//Model pyramid2(ModelType::Pyramid, &shader, &mat);
+	//Model ground(ModelType::GroundPlane, &shader, &matGrid);
+	//Model ground2(ModelType::GroundPlane, &shader, &matGrid);
+	//
+	//Model cubeLooker(ModelType::Cube, &shader, &mat);
+	
+	Model model("models/teapot.obj", &shader);
+	model.SetMaterial(mat);
 
-	ground.Scale(5, 0, 5);
-	ground2.SetGroundPlaneParam(2, 2);
-	ground2.Translate(3, 0, 3);
-	pyramid2.Translate(-1.0, 0, -3);
-	pyramid.Translate(1.0, 0, 0);
+	//ground.Scale(5, 0, 5);
+	//ground2.SetGroundPlaneParam(2, 2);
+	//ground2.Translate(3, 0, 3);
+	//pyramid2.Translate(-1.0, 0, -3);
+	//pyramid.Translate(1.0, 0, 0);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -81,12 +85,14 @@ int main(void)
 		//Code Here
 		camera.CalculateViewMatrix();
 
-		ground.Render();
-		pyramid.Render();
-		pyramid2.Render();
+		//ground.Render();
+		//pyramid.Render();
+		//pyramid2.Render();
+		//
+		//cubeLooker.LookAt(glm::vec3(0, 0, 0));
+		//cubeLooker.Render();
 
-		cubeLooker.LookAt(glm::vec3(0, 0, 0));
-		cubeLooker.Render();
+		model.Render();
 
 		dirLight.Render();
 

@@ -1,26 +1,10 @@
 #include "Material.h"
 
 
-Material::Material(Shader* shader, float shininess, Texture* diffuseSmapler, Texture* specularSampler, int diffuseSamplerSlot, int specularSamplerSlot)
+Material::Material(Shader* shader, float shininess)
 {
 	this->shininess = shininess;
-	this->diffuseTexture = diffuseSmapler;
-	this->specularTexture = specularSampler;
-	this->diffuseSamplerSlot = diffuseSamplerSlot;
-	this->specularSamplerSlot = specularSamplerSlot;
 	this->shader = shader;
-}
-
-void Material::SetDiffuseSample(Texture* diffuseSmapler, int samplerSlot)
-{
-	this->diffuseTexture = diffuseSmapler;
-	this->diffuseSamplerSlot = diffuseSamplerSlot;
-}
-
-void Material::SetSpecularSampel(Texture* specularSmapler, int samplerSlot)
-{
-	this->specularTexture = specularTexture;
-	this->specularSamplerSlot = specularSamplerSlot;
 }
 
 void Material::SetShininess(float shininess)
@@ -28,30 +12,32 @@ void Material::SetShininess(float shininess)
 	this->shininess = shininess;
 }
 
+void Material::AddTexture(std::string path, aiTextureType type, unsigned int slot)
+{
+	Texture* texture = new Texture(path, type);
+	texture->SetSlot(slot);
+	textures.push_back(texture);
+}
+
 void Material::BindMaterial(std::string materialDiffuseName, std::string materialSpecularName, std::string materialShininessName)
 {
-	if (diffuseTexture)
-		diffuseTexture->Bind(diffuseSamplerSlot);
-	if (specularTexture)
-		specularTexture->Bind(specularSamplerSlot);
-	if (shader)
+	if (!shader)
+		return;
+	int diffuseI = 1;
+	int specularI = 1;
+	for (size_t i = 0; i < textures.size(); i++)
 	{
-		if (materialDiffuseName.empty())
-			shader->SetUniform1i("material.diffuse", diffuseSamplerSlot);
-		else
-			shader->SetUniform1i(materialDiffuseName, diffuseSamplerSlot);
-
-		if (materialSpecularName.empty())
-			shader->SetUniform1i("material.specular", specularSamplerSlot);
-		else
-			shader->SetUniform1i(materialSpecularName, specularSamplerSlot);
-
-		if (materialShininessName.empty())
-			shader->SetUniform1f("material.shininess", shininess);
-		else
-			shader->SetUniform1f(materialShininessName, shininess);
+		textures[i]->SetSlot(i + 1);
+		if (textures[i]->type == aiTextureType_DIFFUSE)
+			shader->SetUniform1i("material.diffuse[" + std::to_string(diffuseI) + "]", textures[i]->slot);
+		else if (textures[i]->type == aiTextureType_SPECULAR)
+			shader->SetUniform1i("material.specular[" + std::to_string(specularI++) + "]", textures[i]->slot);
+		textures[i]->Bind();
 	}
+
+	if (materialShininessName.empty())
+		shader->SetUniform1f("material.shininess", shininess);
 	else
-		std::cout << "Shader isn't bound yet" << std::endl;
+		shader->SetUniform1f(materialShininessName, shininess);
 }
 
