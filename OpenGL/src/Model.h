@@ -42,6 +42,9 @@ public:
 	//3D Model Importer
 	Model(std::string path, Shader* shader);
 	void LoadModel(std::string& path);
+	std::string directory;
+	std::vector<float> vertices;
+	std::vector<unsigned int> indices;
 
 	void UpdateIndiciesNum();
 	void SetVertexBuffer(const float data[] = nullptr, const unsigned int size = 0);

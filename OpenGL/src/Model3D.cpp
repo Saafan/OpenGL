@@ -6,7 +6,13 @@ Model::Model(std::string path, Shader* shader)
 {
 	this->shader = shader;
 	type = ModelType::Model;
+	material = new Material(shader);
 	LoadModel(path);
+
+	SetVBAttributes(3, 3, 2);
+	ib = new IndexBuffer(&indices[0], indices.size());
+	SetVertexBuffer(&vertices[0], vertices.size() * sizeof(float));
+	SetTargetBufferObject(GL_TRIANGLES);
 }
 
 void Model::LoadModel(std::string& path)
@@ -19,30 +25,34 @@ void Model::LoadModel(std::string& path)
 		std::cout << "Error ASSIMP::" << importer.GetErrorString() << std::endl;
 		return;
 	}
+	directory = path.substr(0, path.find_last_of('/')) + '/';
 
 	ProcessNode(scene->mRootNode, scene);
+
 
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
 {
-	for (size_t i = 0; i < node->mNumChildren; i++)
-	{
-		ProcessNode(node->mChildren[i], scene);
-	}
-	for (size_t i = 0; i < node->mNumMeshes; i++)
+	// process all the node's meshes (if any)
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		ProcessMesh(mesh, scene);
+	}
+	// then do the same for each of its children
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		ProcessNode(node->mChildren[i], scene);
 	}
 }
 
 void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
-	std::vector<float> vertices;
-	std::vector<unsigned int> indices;
+
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
+		std::cout << "Mesh Vertex" << std::endl;
 		vertices.push_back(mesh->mVertices[i].x);
 		vertices.push_back(mesh->mVertices[i].y);
 		vertices.push_back(mesh->mVertices[i].z);
@@ -62,6 +72,8 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	}
 	for (size_t i = 0; i < mesh->mNumFaces; i++)
 	{
+		std::cout << "Mesh indices" << std::endl;
+
 		aiFace face = mesh->mFaces[i];
 		for (size_t j = 0; j < face.mNumIndices; j++)
 		{
@@ -69,16 +81,25 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
-
-	SetVBAttributes(3, 3, 2);
-	ib = new IndexBuffer(&indices[0], indices.size());
-	SetVertexBuffer(&vertices[0], sizeof(vertices));
-	SetTargetBufferObject(GL_TRIANGLES);
-
-	ProcessMaterial(scene->mMaterials[mesh->mMaterialIndex], scene);
+	if (mesh->mMaterialIndex >= 0)
+	{
+		ProcessMaterial(scene->mMaterials[mesh->mMaterialIndex], scene);
+	}
 }
 
 void Model::ProcessMaterial(aiMaterial* mat, const aiScene* scene)
 {
-
+	for (size_t currentTypeIndex = 0; currentTypeIndex < 2; currentTypeIndex++)
+	{
+		std::cout << "Material Type" << std::endl;
+		aiTextureType type = (aiTextureType)(aiTextureType_DIFFUSE + currentTypeIndex);
+		for (size_t i = 0; i < mat->GetTextureCount(type); i++)
+		{
+			std::cout << "Material ORIGINAL" << std::endl;
+			aiString str;
+			mat->GetTexture(type, i, &str);
+			//#TODO Make below more dynamic
+			material->AddTexture(directory + str.C_Str(), type, currentTypeIndex * mat->GetTextureCount(type) + i);
+		}
+	}
 }

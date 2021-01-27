@@ -1,9 +1,6 @@
 #include "Texture.h"
-#include <iostream>
 
-#include "stb_image\stb_image.h"
-
-Texture::Texture(const std::string& path, aiTextureType type , bool alpha)
+Texture::Texture(const std::string& path, aiTextureType type, bool alpha)
 	: m_RendererID(0), m_FilePath(path), m_LocalBuffer(nullptr), m_Width(0), m_Height(0), m_BPP(0)
 {
 	this->alpha = alpha;
@@ -27,6 +24,10 @@ Texture::Texture(const std::string& path, aiTextureType type , bool alpha)
 	{
 		GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_LocalBuffer));
 	}
+	
+	std::ifstream f(path.c_str());
+	if (!f.good())
+		std::cout << "Texture: " << path << " wasn't found!" << std::endl;
 
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 

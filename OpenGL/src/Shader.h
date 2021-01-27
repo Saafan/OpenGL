@@ -1,11 +1,15 @@
 #pragma once
 #include "DefaultNamingConventions.h"
 
+#include <iostream>
 #include <string>
 #include <unordered_map>
-
+#include <fstream>
+#include <sstream>
 #include "glm/glm.hpp"
 #include "glm/gtc/type_ptr.hpp"
+
+
 /**
 A struct that combines shader sources into a single type.
 */

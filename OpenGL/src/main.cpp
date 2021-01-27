@@ -53,25 +53,24 @@ int main(void)
 	mat.AddTexture("images/container2.png", aiTextureType_DIFFUSE, 1);
 	mat.AddTexture("images/container2_specular.png", aiTextureType_SPECULAR, 2);
 
+	matGrid.AddTexture("images/grid2.jpg", aiTextureType_DIFFUSE,15);
+
 	Light dirLight(shader, camera, LightType::Point, 0);
-	dirLight.SetPointLightParam(glm::vec3(1.0f), glm::vec3(0.2f), glm::vec3(0.5f), glm::vec3(1.0f));
+	dirLight.SetPointLightParam(glm::vec3(2.0f), glm::vec3(0.2f), glm::vec3(0.5f), glm::vec3(1.0f));
 	dirLight.SetAmbient(1.0f, 1.0f, 1.0f);
 
-	//Model pyramid(ModelType::Pyramid, &shader, &mat);
-	//Model pyramid2(ModelType::Pyramid, &shader, &mat);
-	//Model ground(ModelType::GroundPlane, &shader, &matGrid);
+	Model pyramid(ModelType::Pyramid, &shader, &mat);
+	Model pyramid2(ModelType::Pyramid, &shader, &mat);
+	Model ground(ModelType::GroundPlane, &shader, &matGrid);
 	//Model ground2(ModelType::GroundPlane, &shader, &matGrid);
-	//
+	
 	//Model cubeLooker(ModelType::Cube, &shader, &mat);
 	
-	Model model("models/teapot.obj", &shader);
-	model.SetMaterial(mat);
+	Model model("models/teapot/teapot.obj", &shader);
 
-	//ground.Scale(5, 0, 5);
-	//ground2.SetGroundPlaneParam(2, 2);
-	//ground2.Translate(3, 0, 3);
-	//pyramid2.Translate(-1.0, 0, -3);
-	//pyramid.Translate(1.0, 0, 0);
+	ground.Scale(5, 0, 5);
+	pyramid2.Translate(-1.0, 0, -3);
+	pyramid.Translate(1.0, 0, 0);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -85,9 +84,9 @@ int main(void)
 		//Code Here
 		camera.CalculateViewMatrix();
 
-		//ground.Render();
-		//pyramid.Render();
-		//pyramid2.Render();
+		ground.Render();
+		pyramid.Render();
+		pyramid2.Render();
 		//
 		//cubeLooker.LookAt(glm::vec3(0, 0, 0));
 		//cubeLooker.Render();

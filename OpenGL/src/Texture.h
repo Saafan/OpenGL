@@ -2,6 +2,8 @@
 
 #include "Renderer.h"
 #include "assimp/scene.h"
+#include <iostream>
+#include "stb_image\stb_image.h"
 class Texture
 {
 private:

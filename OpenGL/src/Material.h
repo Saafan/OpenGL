@@ -9,7 +9,7 @@ public:
 	Material(Shader* shader = nullptr, float shininess = 64.0f);
 	void SetShininess(float shininess);
 
-	void AddTexture(std::string path, aiTextureType type, unsigned int slot = 0);
+	void AddTexture(std::string path, aiTextureType type, unsigned int slot);
 	void BindMaterial(std::string materialDiffuseName = "", std::string materialSpecularName = "", std::string materialShininessName = "");
 
 private:

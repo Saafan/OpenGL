@@ -83,6 +83,9 @@ void Model::SetVertexBuffer(const float data[], const unsigned int size)
 	else
 		this->dataSize = size;
 
+	delete vb;
+	delete va;
+
 	vb = new VertexBuffer(data, dataSize);
 	va = new VertexArray();
 
@@ -427,18 +430,20 @@ void Model::Render(std::string modelUniformName)
 {
 	if (shader)
 	{
+
+		va->Bind();
 		shader->Bind();
 		shader->SetUniformMat4f(modelUniformName, model);
+		if (material)
+			material->BindMaterial();
 		if (type == ModelType::Model)
 		{
-			
+			ib->Bind();
+			glDrawElements(targetBufferObject, ib->GetCount(), GL_UNSIGNED_INT, nullptr);
 			return;
 		}
 	}
 
-	va->Bind();
-	if (material)
-		material->BindMaterial();
 
 	glDrawArrays(targetBufferObject, 0, indicesNum);
 }
