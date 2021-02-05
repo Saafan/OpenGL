@@ -10,8 +10,11 @@
 #include "Light.h"
 #include "Material.h"
 
-#include "Model.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
+#include "tests/RayCasting.h"
 int main(void)
 {
 
@@ -42,58 +45,46 @@ int main(void)
 		return -1;
 	}
 
-	Shader shader("shaders/LightingShader.shader");
-	shader.Bind();
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 130");
 
-	Camera camera(window, &shader, 2.5f);
 
-	Material mat(&shader, 64.0f);
-	Material matGrid(&shader, 256.0f);
-
-	mat.AddTexture("images/container2.png", aiTextureType_DIFFUSE, 1);
-	mat.AddTexture("images/container2_specular.png", aiTextureType_SPECULAR, 2);
-
-	matGrid.AddTexture("images/grid2.jpg", aiTextureType_DIFFUSE,15);
-
-	Light dirLight(shader, camera, LightType::Point, 0);
-	dirLight.SetPointLightParam(glm::vec3(2.0f), glm::vec3(0.2f), glm::vec3(0.5f), glm::vec3(1.0f));
-	dirLight.SetAmbient(1.0f, 1.0f, 1.0f);
-
-	Model pyramid(ModelType::Pyramid, &shader, &mat);
-	Model pyramid2(ModelType::Pyramid, &shader, &mat);
-	Model ground(ModelType::GroundPlane, &shader, &matGrid);
-	//Model ground2(ModelType::GroundPlane, &shader, &matGrid);
-	
-	//Model cubeLooker(ModelType::Cube, &shader, &mat);
-	
-	Model model("models/teapot/teapot.obj", &shader);
-
-	ground.Scale(5, 0, 5);
-	pyramid2.Translate(-1.0, 0, -3);
-	pyramid.Translate(1.0, 0, 0);
-
+	test::Test* currentTest = nullptr;
+	test::TestMenu* testMenu = new test::TestMenu(currentTest);
+	currentTest = testMenu;
+	testMenu->RegisterTest<test::RayCasting>("Ray Casting", window);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.5f, 0.8f, 1.0f);
-
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 		glEnable(GL_DEPTH_TEST);
-
 		//Code Here
-		camera.CalculateViewMatrix();
 
-		ground.Render();
-		pyramid.Render();
-		pyramid2.Render();
-		//
-		//cubeLooker.LookAt(glm::vec3(0, 0, 0));
-		//cubeLooker.Render();
+		if (currentTest)
+		{
+			currentTest->OnUpdate(0.0f);
+			currentTest->OnRender();
+			ImGui::Begin("Test");
+			if (currentTest != testMenu && ImGui::Button("<-"))
+			{
+				delete currentTest;
+				currentTest = testMenu;
+			}
+			currentTest->OnImGuiRender();
+			ImGui::End();
+		}
 
-		model.Render();
-
-		dirLight.Render();
+		/*Rendering IMGUI Window*/
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
@@ -102,6 +93,12 @@ int main(void)
 		glfwPollEvents();
 	}
 
+	if (currentTest != testMenu)
+		delete currentTest;
+	// Close OpenGL window and terminate GLFW
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 	glfwTerminate();
+
 	return 0;
 }

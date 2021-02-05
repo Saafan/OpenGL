@@ -117,7 +117,7 @@ private:
 	unsigned int indicesNum = 0;
 	unsigned int axisNum = 0, normalsNum = 0, textureCoordNum = 0;
 	const void* data = nullptr;
-	unsigned int dataSize = 0.0f;
+	unsigned int dataSize = 0;
 
 
 	void ProcessNode(aiNode* node, const aiScene* scene);

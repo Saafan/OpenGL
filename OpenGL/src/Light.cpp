@@ -104,7 +104,7 @@ void Light::SetPointLightParam(glm::vec3 position, glm::vec3 ambient, glm::vec3 
 	this->quadratic = quadratic;
 }
 
-void Light::SetSpotLightParam(glm::vec3 position, glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular,  float cutOff, float outerCutOff, float constant, float linear, float quadratic)
+void Light::SetSpotLightParam(glm::vec3 position, glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float cutOff, float outerCutOff, float constant, float linear, float quadratic)
 {
 	this->position = position;
 	this->direction = direction;
@@ -119,6 +119,20 @@ void Light::SetSpotLightParam(glm::vec3 position, glm::vec3 direction, glm::vec3
 
 	this->cutOff = cutOff;
 	this->outerCutOff = outerCutOff;
+}
+
+void Light::SetPosition(float x, float y, float z)
+{
+	position.x = x;
+	position.y = y;
+	position.z = z;
+}
+
+void Light::SetPosition(glm::vec3 pos)
+{
+	position.x = pos.x;
+	position.y = pos.y;
+	position.z = pos.z;
 }
 
 void Light::SetAmbient(glm::vec3 ambient)
@@ -179,7 +193,11 @@ void Light::RenderVisualizationModel()
 	static auto* visualizationCube = new Model(ModelType::Cube, lightShader);
 	static auto* directionLine = new Model(ModelType::Line, lightShader);
 
-	visualizationCube->SetCubeParam(0.25f, 0.25f, 0.25f);
+	if (type != LightType::Directional)
+		visualizationCube->SetCubeParam(0.25f, 0.25f, 0.25f);
+	else
+		visualizationCube->SetPlaneParam(0.5f, 0.5f);
+
 	visualizationCube->Translate(position);
 
 	glm::vec3 vizColor = glm::vec3(ambient.r * diffuse.r, ambient.g * diffuse.g, ambient.b * diffuse.b);
@@ -190,16 +208,15 @@ void Light::RenderVisualizationModel()
 		lightShader->SetMVPMatrix(visualizationCube->GetModelMatrix(), *camera->viewMatrix, *camera->projMatrix);
 	}
 	visualizationCube->LookAt(direction);
-	
+
+	lightShader->SetUniform3f("lightColor", vizColor.x * 0.2f, vizColor.y * 0.2f, vizColor.z * 0.2f);
+	lightShader->SetUniform3f("lightColor", vizColor.x * 0.75f, vizColor.y * 0.75f, vizColor.z * 0.75f);
+
 	if (type == LightType::Spot)
 	{
-		lightShader->SetUniform3f("lightColor", vizColor.x * 0.2f, vizColor.y * 0.2f, vizColor.z * 0.2f);
 		directionLine->RenderWireCone(position, direction, cutOff, 2.5f);
-		lightShader->SetUniform3f("lightColor", vizColor.x * 0.75f, vizColor.y * 0.75f, vizColor.z * 0.75f);
 		directionLine->RenderWireCone(position, direction, outerCutOff, 2.5f);
 	}
-	else if (type == LightType::Directional)
-		std::cout << "directional" << std::endl;	//#TODO Make Shape for directional
 
 	visualizationCube->Render();
 }

@@ -40,6 +40,9 @@ public:
 	void SetPointLightParam(glm::vec3 position, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float constant = DEFAULT_LIGHT_CONSTANT, float linear = DEFAULT_LIGHT_LINEAR, float quadratic = DEFAULT_LIGHT_QUADRATIC);
 	void SetSpotLightParam(glm::vec3 position, glm::vec3 direction, glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float cutOff = DEFAULT_SPOTLIGHT_CUTOFF, float outerCutOff = DEFAULT_SPOTLIGHT_OUTERCUTOFF, float constant = DEFAULT_LIGHT_CONSTANT, float linear = DEFAULT_LIGHT_LINEAR, float quadratic = DEFAULT_LIGHT_QUADRATIC);
 
+	void SetPosition(glm::vec3 pos);
+	void SetPosition(float x, float y, float z);
+
 	void SetAmbient(glm::vec3 ambient);
 	void SetAmbient(float r, float g, float b);
 	void SetDiffuse(glm::vec3 diffuse);

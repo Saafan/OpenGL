@@ -1,4 +1,5 @@
 #include "Model.h"
+#include "Camera.h"
 
 /// <summary>MyMethod is a method in the MyClass class.
 ///<para>The Type of the Model You want to create </para>
@@ -158,7 +159,7 @@ void Model::RenderWireCone(const glm::vec3 startPoint, const glm::vec3 endPoint,
 	const int coneWiresNum = 8;
 	for (size_t i = 0; i < coneWiresNum; i++)
 	{
-		const float hypo = std::sqrt(std::pow(endPoint.x - startPoint.x, 2) + std::pow(endPoint.y - startPoint.y, 2));
+		const float hypo = glm::distance(startPoint, endPoint);
 		const float radius = hypo * std::sin(glm::radians(angle));
 		glVertex3f(startPoint.x, startPoint.y, startPoint.z);
 		glVertex3f(endPoint.x + std::cos(glm::radians(i * (360.0f / coneWiresNum))) * radius, endPoint.y, endPoint.z + std::sin(glm::radians(i * (360.0f / coneWiresNum))) * radius);
@@ -167,6 +168,7 @@ void Model::RenderWireCone(const glm::vec3 startPoint, const glm::vec3 endPoint,
 		glVertex3f(endPoint.x + std::cos(glm::radians((i + 1) * (360.0f / coneWiresNum))) * radius, endPoint.y, endPoint.z + std::sin(glm::radians((i + 1) * (360.0f / coneWiresNum))) * radius);
 	}
 	glEnd();
+
 	shader->SetModelMatrix(GetModelMatrix());
 }
 

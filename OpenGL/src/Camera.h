@@ -3,6 +3,7 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/string_cast.hpp"
 #include "Shader.h"
 
 template <typename T = float>
@@ -21,6 +22,8 @@ public:
 	std::string& GetCameraPositionUniform();
 
 	void SetSpeed(float speed);
+	void SetFOVAngle(float fov);
+
 	void SetCursorLock(bool locked);
 	void SetWindow(GLFWwindow* window);
 	glm::mat4 SetProjectionMatrix(unsigned int projUniformLocation, float width, float height, float fovAngle);
@@ -28,9 +31,11 @@ public:
 	glm::mat4& CalculateViewMatrix();
 
 	std::string cameraPositionUniform = "viewPos";
-	
+
 	float pitch = 0.0f;
 	float yaw = -90.0f;
+	float fovAngle = 60.0f;
+
 	GLFWwindow* window;
 	Shader* cameraShader = nullptr;
 
@@ -41,6 +46,10 @@ public:
 
 	static glm::vec3 cameraPos;
 	static glm::vec3 cameraFront;
-	static float speed;
+
+	static glm::dvec2 currentMousePos;
 	static glm::vec2 mouseDelta;
+	const glm::vec3 RayCast(float t);
+
+	static float speed;
 };

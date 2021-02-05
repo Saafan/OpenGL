@@ -28,8 +28,6 @@ void Model::LoadModel(std::string& path)
 	directory = path.substr(0, path.find_last_of('/')) + '/';
 
 	ProcessNode(scene->mRootNode, scene);
-
-
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)
@@ -49,10 +47,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 
 void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
-
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
-		std::cout << "Mesh Vertex" << std::endl;
 		vertices.push_back(mesh->mVertices[i].x);
 		vertices.push_back(mesh->mVertices[i].y);
 		vertices.push_back(mesh->mVertices[i].z);
@@ -72,8 +68,6 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	}
 	for (size_t i = 0; i < mesh->mNumFaces; i++)
 	{
-		std::cout << "Mesh indices" << std::endl;
-
 		aiFace face = mesh->mFaces[i];
 		for (size_t j = 0; j < face.mNumIndices; j++)
 		{
@@ -91,11 +85,9 @@ void Model::ProcessMaterial(aiMaterial* mat, const aiScene* scene)
 {
 	for (size_t currentTypeIndex = 0; currentTypeIndex < 2; currentTypeIndex++)
 	{
-		std::cout << "Material Type" << std::endl;
 		aiTextureType type = (aiTextureType)(aiTextureType_DIFFUSE + currentTypeIndex);
 		for (size_t i = 0; i < mat->GetTextureCount(type); i++)
 		{
-			std::cout << "Material ORIGINAL" << std::endl;
 			aiString str;
 			mat->GetTexture(type, i, &str);
 			//#TODO Make below more dynamic
