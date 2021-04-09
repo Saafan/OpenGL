@@ -14,10 +14,10 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#include "tests/RayCasting.h"
+#include "tests/GeometryShader.h"
+
 int main(void)
 {
-
 	GLFWwindow* window;
 
 	/* Initialize the library */
@@ -55,7 +55,7 @@ int main(void)
 	test::Test* currentTest = nullptr;
 	test::TestMenu* testMenu = new test::TestMenu(currentTest);
 	currentTest = testMenu;
-	testMenu->RegisterTest<test::RayCasting>("Ray Casting", window);
+	testMenu->RegisterTest<test::GeometryShader>("Ray Casting", window);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{

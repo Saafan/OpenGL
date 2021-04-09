@@ -56,9 +56,10 @@ public:
 	void SetTargetBufferObject(const GLenum target);
 
 	glm::mat4& GetModelMatrix();
-
+	ModelMatrices& GetDecomposedMatrix();
+	
 	//Setting Primitives Parameters
-	void SetTriangleParam(const float width = 0.5f, const float length = 0.5f);
+	void SetTriangleParam(const float width = 1.0f, const float length = 1.0f);
 	void SetTriangleParam(const float triangleSideLength);
 	void SetPlaneParam(const float width = 0.5f, const float length = 0.5f);
 	void SetPlaneParam(const float planeSideLength);

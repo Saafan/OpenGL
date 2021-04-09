@@ -15,6 +15,8 @@ private:
     int m_Width, m_Height, m_BPP;
 public:
     Texture(const std::string& path, aiTextureType type = aiTextureType_DIFFUSE, bool alpha = true);
+    //SkyBox Texture
+    Texture(std::vector<std::string> paths);
     ~Texture();
 
     void Bind(unsigned int slot);
@@ -26,6 +28,6 @@ public:
 
     inline int GetWidth() const { return m_Width; }
     inline int GetHeight() const { return m_Height; }
-
+    inline unsigned int GetTextureID() const{ return m_RendererID; }
     friend class Material;
 };

@@ -46,8 +46,8 @@ namespace test
 			tests.push_back(std::make_pair(name, [=]() { return new T(window); }));
 		}
 
-	private:
 		Test*& currentTest;
+	private:
 		std::vector<std::pair<std::string, std::function<Test* ()>>> tests;
 	};
 

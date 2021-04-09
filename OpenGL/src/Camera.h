@@ -20,6 +20,7 @@ public:
 
 	void SetCameraPositionUniform(std::string uniformName);
 	std::string& GetCameraPositionUniform();
+	glm::mat4& GetCameraViewMatrix();
 
 	void SetSpeed(float speed);
 	void SetFOVAngle(float fov);
@@ -29,6 +30,10 @@ public:
 	glm::mat4 SetProjectionMatrix(unsigned int projUniformLocation, float width, float height, float fovAngle);
 	void SetViewUniformLocation(unsigned int viewUniformLocation);
 	glm::mat4& CalculateViewMatrix();
+
+	void ReportMouseDelta();
+	void ReportMousePosition();
+	void ReportYawPitch();
 
 	std::string cameraPositionUniform = "viewPos";
 

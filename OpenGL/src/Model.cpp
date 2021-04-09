@@ -138,6 +138,11 @@ glm::mat4& Model::GetModelMatrix()
 	return model;
 }
 
+ModelMatrices& Model::GetDecomposedMatrix()
+{
+	return *modelMatrices;
+}
+
 void Model::RenderLine(const glm::vec3 startPoint, const glm::vec3 endPoint, float lineWidth)
 {
 	glm::mat4 tmp(1.0f);
@@ -341,13 +346,13 @@ glm::mat4& Model::Translate(glm::vec3 pos)
 
 glm::mat4& Model::Rotate(float angle, float xAxis, float yAxis, float zAxis)
 {
-	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(xAxis, yAxis, zAxis));
+	model = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(xAxis, yAxis, zAxis));
 	return model;
 }
 
 glm::mat4& Model::Rotate(float angle, glm::vec3 axis)
 {
-	model = glm::rotate(glm::mat4(1.0f), angle, axis);
+	model = glm::rotate(glm::mat4(1.0f), glm::radians(angle), axis);
 	return model;
 }
 

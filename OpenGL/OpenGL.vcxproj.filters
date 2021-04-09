@@ -78,7 +78,7 @@
     <ClCompile Include="src\tests\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tests\RayCasting.cpp">
+    <ClCompile Include="src\tests\GeometryShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +87,9 @@
     <None Include="shaders\Shader.shader" />
     <None Include="shaders\LightingShader.shader" />
     <None Include="shaders\LightVisualization.shader" />
+    <None Include="shaders\SingleQuad.shader" />
+    <None Include="shaders\CubeMap.shader" />
+    <None Include="shaders\GeometryShader.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IndexBuffer.h">
@@ -161,7 +164,10 @@
     <ClInclude Include="src\tests\Test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tests\RayCasting.h">
+    <ClInclude Include="PrimitivesData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tests\GeometryShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

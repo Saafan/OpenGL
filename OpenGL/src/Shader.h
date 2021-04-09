@@ -17,6 +17,7 @@ struct ShaderProgramSource
 {
     std::string VertexSource;
     std::string FragmentSource;
+    std::string GeometrySource;
 };
 
 class Shader
@@ -73,7 +74,7 @@ private:
         @param fragmentShader Source of the fragmentshader as string
         @return unsigned int An identifier for the newly created shader
     */
-    unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
+    unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader, const std::string& geomeretShader);
 
     /**
         Compiles a single shader so it can be attached.

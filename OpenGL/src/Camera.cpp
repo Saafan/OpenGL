@@ -134,6 +134,11 @@ std::string& Camera::GetCameraPositionUniform()
 	return cameraPositionUniform;
 }
 
+glm::mat4& Camera::GetCameraViewMatrix()
+{
+	return *viewMatrix;
+}
+
 void Camera::SetSpeed(float speed)
 {
 	this->speed = speed;
@@ -243,5 +248,20 @@ glm::mat4& Camera::CalculateViewMatrix()
 	viewMatrix = viewMat;
 
 	return *viewMat;
+}
+
+void Camera::ReportMouseDelta()
+{
+	std::cout << "(x: " << mouseDelta.x << ", y:" << mouseDelta.y << ")" << std::endl;
+}
+
+void Camera::ReportMousePosition()
+{
+	std::cout << "(x: " << currentMousePos.y << ", y:" << currentMousePos.x << ")" << std::endl;
+}
+
+void Camera::ReportYawPitch()
+{
+	std::cout << "(yaw: " << yaw << ", pitch:" << pitch << ")" << std::endl;
 }
 

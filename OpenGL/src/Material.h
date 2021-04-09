@@ -16,4 +16,5 @@ private:
 	std::vector<Texture*> textures;
 	Shader* shader = nullptr;
 	float shininess = 64.0f;
+	float reflectivity = 1.0f;
 };

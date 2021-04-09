@@ -42,6 +42,8 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		ProcessNode(node->mChildren[i], scene);
+		std::cout << "INode : " << i << std::endl;
+
 	}
 }
 
@@ -65,6 +67,7 @@ void Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			vertices.push_back(0);
 			vertices.push_back(0);
 		}
+
 	}
 	for (size_t i = 0; i < mesh->mNumFaces; i++)
 	{
