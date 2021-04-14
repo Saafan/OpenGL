@@ -94,6 +94,7 @@ public:
 	void Decompose();
 
 	void Render(std::string modelUniformName = DEFAULT_UNIFORM_MODEL_NAME);
+	void RenderInstanced(int instanceNum, std::vector<glm::vec3>& offsets, std::string modelUniformName = DEFAULT_UNIFORM_MODEL_NAME);
 	void RenderLine(const glm::vec3 startPoint, const glm::vec3 endPoint, float lineWidth = 2.5f);
 	void RenderLine(const float startX, const float startY, const float startZ, const float endX, const float endY, const float endZ, float lineWidth = 2.5f);
 	void RenderWireCone(const glm::vec3 startPoint, const glm::vec3 endPoint, float angle, float lineWidth = 2.5f);
@@ -104,7 +105,7 @@ private:
 	Material* material = nullptr;
 	glm::mat4 model = glm::mat4(1.0f);
 
-	//this matrix for saving the decompositions of model matrix
+	//This Matrix for Saving The Decompositions of Model Matrix
 	ModelMatrices* modelMatrices = nullptr;
 
 	VertexBuffer* vb = nullptr;

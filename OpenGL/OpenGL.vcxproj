@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\tests\GeometryShader.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\IndexBuffer.cpp" />
@@ -30,6 +29,7 @@
     <ClCompile Include="src\Model3D.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\tests\Instancing.cpp" />
     <ClCompile Include="src\tests\Test.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\vendors\imgui\imgui.cpp" />
@@ -46,6 +46,7 @@
     <None Include="glew32.dll" />
     <None Include="shaders\CubeMap.shader" />
     <None Include="shaders\GeometryShader.shader" />
+    <None Include="shaders\Instancing.shader" />
     <None Include="shaders\LightingShader.shader" />
     <None Include="shaders\LightVisualization.shader" />
     <None Include="shaders\Shader.shader" />
@@ -54,7 +55,6 @@
   <ItemGroup>
     <ClInclude Include="PrimitivesData.h" />
     <ClInclude Include="src\DefaultNamingConventions.h" />
-    <ClInclude Include="src\tests\GeometryShader.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\IndexBuffer.h" />
@@ -64,6 +64,7 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Teapoth.h" />
+    <ClInclude Include="src\tests\Instancing.h" />
     <ClInclude Include="src\tests\Test.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\vendors\imgui\imconfig.h" />

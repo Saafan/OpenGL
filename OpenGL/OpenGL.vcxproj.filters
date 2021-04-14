@@ -78,7 +78,7 @@
     <ClCompile Include="src\tests\Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tests\GeometryShader.cpp">
+    <ClCompile Include="src\tests\Instancing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -90,6 +90,7 @@
     <None Include="shaders\SingleQuad.shader" />
     <None Include="shaders\CubeMap.shader" />
     <None Include="shaders\GeometryShader.shader" />
+    <None Include="shaders\Instancing.shader" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IndexBuffer.h">
@@ -167,7 +168,7 @@
     <ClInclude Include="PrimitivesData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tests\GeometryShader.h">
+    <ClInclude Include="src\tests\Instancing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

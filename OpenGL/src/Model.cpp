@@ -437,7 +437,6 @@ void Model::Render(std::string modelUniformName)
 {
 	if (shader)
 	{
-
 		va->Bind();
 		shader->Bind();
 		shader->SetUniformMat4f(modelUniformName, model);
@@ -453,5 +452,39 @@ void Model::Render(std::string modelUniformName)
 
 
 	glDrawArrays(targetBufferObject, 0, indicesNum);
+}
+
+void Model::RenderInstanced(int instanceNum, std::vector<glm::vec3>& offsets, std::string modelUniformName /*= DEFAULT_UNIFORM_MODEL_NAME*/)
+{
+
+	static bool firstTime = true;
+	if (firstTime)
+	{
+		VertexBuffer vb(&offsets[0], sizeof(float) * offsets.size() * 3);
+		VertexBufferLayout vbl;
+		vbl.Push<float>(3);
+		va->AddBuffer(vb, vbl);
+		firstTime = false;
+	}
+
+
+	if (shader)
+	{
+
+		va->Bind();
+		shader->Bind();
+		shader->SetUniformMat4f(modelUniformName, model);
+		if (material)
+			material->BindMaterial();
+		if (type == ModelType::Model)
+		{
+			ib->Bind();
+			glDrawElementsInstanced(targetBufferObject, ib->GetCount(), GL_UNSIGNED_INT, nullptr, instanceNum);
+			return;
+		}
+	}
+
+
+	GLCall(glDrawArraysInstanced(targetBufferObject, 0, indicesNum, instanceNum));
 }
 

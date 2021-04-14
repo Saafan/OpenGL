@@ -14,7 +14,7 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-#include "tests/GeometryShader.h"
+#include "tests/Instancing.h"
 
 int main(void)
 {
@@ -28,6 +28,7 @@ int main(void)
 	}
 
 	/* Create a windowed mode window and its OpenGL context */
+	glfwWindowHint(GLFW_SAMPLES, 4);
 	window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL Window", NULL, NULL);
 	if (!window)
 	{
@@ -44,7 +45,7 @@ int main(void)
 		std::cout << "GLEW Initialization Failed!" << std::endl;
 		return -1;
 	}
-
+	glEnable(GL_MULTISAMPLE);
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
@@ -55,7 +56,7 @@ int main(void)
 	test::Test* currentTest = nullptr;
 	test::TestMenu* testMenu = new test::TestMenu(currentTest);
 	currentTest = testMenu;
-	testMenu->RegisterTest<test::GeometryShader>("Ray Casting", window);
+	testMenu->RegisterTest<test::Instancing>("Ray Casting", window);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
