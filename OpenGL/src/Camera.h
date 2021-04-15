@@ -21,7 +21,7 @@ public:
 	void SetCameraPositionUniform(std::string uniformName);
 	std::string& GetCameraPositionUniform();
 	glm::mat4& GetCameraViewMatrix();
-
+	const glm::vec2& GetCameraPitchYaw();
 	void SetSpeed(float speed);
 	void SetFOVAngle(float fov);
 

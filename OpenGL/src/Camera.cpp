@@ -139,6 +139,11 @@ glm::mat4& Camera::GetCameraViewMatrix()
 	return *viewMatrix;
 }
 
+const glm::vec2& Camera::GetCameraPitchYaw()
+{
+	return glm::vec2(pitch, yaw);
+}
+
 void Camera::SetSpeed(float speed)
 {
 	this->speed = speed;
